@@ -32,8 +32,9 @@ services:
   # ---------------------------------------------------------------------------
   # EduPath Frontend (React + Vite + Tailwind CSS + Lucide Icons)
   # ---------------------------------------------------------------------------
-  - type: staticSite
+  - type: web
     name: edupath-frontend
+    runtime: static
     plan: free
     region: oregon
     rootDir: frontend
