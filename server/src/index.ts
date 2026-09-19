@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { apiRouter } from './routes/api';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
@@ -24,15 +25,25 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Mount API routes
 app.use('/api', apiRouter);
 
-// Root greeting
-app.get('/', (req, res) => {
-  res.json({
-    app: 'EduPath Backend API',
-    status: 'online',
-    version: '1.0.0',
-    documentation: '/api/health'
+// Serve frontend build if present (Unified full-stack deployment support)
+const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
   });
-});
+} else {
+  // Root greeting fallback when frontend is hosted separately
+  app.get('/', (req, res) => {
+    res.json({
+      app: 'EduPath Backend API',
+      status: 'online',
+      version: '1.0.0',
+      documentation: '/api/health'
+    });
+  });
+}
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

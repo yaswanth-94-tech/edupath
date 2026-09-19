@@ -9,6 +9,7 @@
     "build:server": "npm --prefix server run build",
     "build:frontend": "npm --prefix frontend run build",
     "build": "npm run build:server && npm run build:frontend",
+    "start": "node server/dist/index.js",
     "test:api": "npm --prefix server run test:api"
   },
   "devDependencies": {
