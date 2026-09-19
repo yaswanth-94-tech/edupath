@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "EduPath - Adaptive, AI-driven skill gap and personalized learning path agent",
   "scripts": {
+    "postinstall": "npm --prefix server install --include=dev && npm --prefix frontend install --include=dev",
     "dev:server": "npm --prefix server run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",

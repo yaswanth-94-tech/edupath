@@ -26,7 +26,10 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/api', apiRouter);
 
 // Serve frontend build if present (Unified full-stack deployment support)
-const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
+const frontendDistPath = fs.existsSync(path.resolve(process.cwd(), 'frontend/dist'))
+  ? path.resolve(process.cwd(), 'frontend/dist')
+  : path.resolve(__dirname, '../../frontend/dist');
+
 if (fs.existsSync(frontendDistPath)) {
   app.use(express.static(frontendDistPath));
   app.get('*', (req, res, next) => {
