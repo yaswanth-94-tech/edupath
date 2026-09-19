@@ -1,0 +1,49 @@
+{
+  "name": "edupath-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-dropdown-menu": "^2.1.6",
+    "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-tooltip": "^1.1.8",
+    "@supabase/supabase-js": "^2.116.0",
+    "canvas-confetti": "^1.9.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "framer-motion": "^11.18.2",
+    "lenis": "^1.3.26",
+    "lucide-react": "^0.475.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^20.1.2",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.10.1",
+    "sonner": "^2.0.8",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^20.17.24",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  }
+}

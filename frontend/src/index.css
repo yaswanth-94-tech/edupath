@@ -1,0 +1,329 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-app: #0B0F1A;
+    --surface-card: #121826;
+    --surface-elevated: #182032;
+    --surface-hover: #1E283D;
+    
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --border-accent: rgba(99, 102, 241, 0.4);
+
+    --primary-indigo: #6366F1;
+    --primary-violet: #8B5CF6;
+    --accent-cyan: #22D3EE;
+    
+    --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  /* Light mode variable overrides */
+  :root.light {
+    --bg-app: #F8FAFC;
+    --surface-card: #FFFFFF;
+    --surface-elevated: #F1F5F9;
+    --surface-hover: #E2E8F0;
+
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.16);
+    --border-accent: rgba(99, 102, 241, 0.5);
+  }
+
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Keep native cursor on editable areas */
+  input, textarea, select, [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
+/* =========================================================
+   Apple-Style Liquid Glass Utility
+   ========================================================= */
+.glass {
+  border-radius: 20px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+
+/* Specular highlight on liquid glass */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 0% 0%, rgba(255, 255, 255, 0.28), transparent 55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Interactive lift for glass cards */
+.glass:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 14px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* Progressive enhancement with Chromium SVG refraction filter */
+@supports (backdrop-filter: url('#liquid-glass')) {
+  .glass {
+    backdrop-filter: url('#liquid-glass') blur(4px) saturate(180%);
+    -webkit-backdrop-filter: url('#liquid-glass') blur(4px) saturate(180%);
+  }
+}
+
+/* Accessibility: fallback for reduced transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: rgba(18, 24, 38, 0.96) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  }
+  .glass::before {
+    display: none !important;
+  }
+}
+
+/* Light mode adjustments for liquid glass */
+:root.light .glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+:root.light .glass::before {
+  background: radial-gradient(120% 80% at 0% 0%, rgba(255, 255, 255, 0.7), transparent 55%);
+}
+
+/* =========================================================
+   Fixed Background Gradient Blobs, Grid Pattern & Noise
+   ========================================================= */
+.liquid-bg-blobs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.bg-grid-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 60%, transparent 100%);
+}
+:root.light .bg-grid-dots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+}
+
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.liquid-blob-1 {
+  position: absolute;
+  top: -120px;
+  left: 15%;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #6366F1 0%, rgba(99, 102, 241, 0.1) 70%);
+  filter: blur(90px);
+  opacity: 0.42;
+  animation: float-blob-1 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.liquid-blob-2 {
+  position: absolute;
+  top: 35%;
+  right: 5%;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #22D3EE 0%, rgba(34, 211, 238, 0.08) 70%);
+  filter: blur(95px);
+  opacity: 0.38;
+  animation: float-blob-2 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.liquid-blob-3 {
+  position: absolute;
+  bottom: -100px;
+  left: 30%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8B5CF6 0%, rgba(139, 92, 246, 0.08) 70%);
+  filter: blur(100px);
+  opacity: 0.32;
+  animation: float-blob-3 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes float-blob-1 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(50px, 60px, 0) scale(1.08); }
+}
+
+@keyframes float-blob-2 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(-60px, -40px, 0) scale(0.94); }
+}
+
+@keyframes float-blob-3 {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(40px, -50px, 0) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-blob-1, .liquid-blob-2, .liquid-blob-3 {
+    animation: none !important;
+  }
+}
+
+/* =========================================================
+   Spotlight Card & Interactive Hover Glow
+   ========================================================= */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    500px circle at var(--mx, -500px) var(--my, -500px),
+    rgba(99, 102, 241, 0.18),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.spotlight-card:hover::after {
+  opacity: 1;
+}
+
+/* =========================================================
+   Buttons & Links Micro-interactions
+   ========================================================= */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 80%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-shimmer:hover::after {
+  transform: translateX(100%);
+}
+
+.btn-press {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+.gradient-primary-btn {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.4);
+  transition: all 0.2s ease-out;
+}
+
+.gradient-primary-btn:hover {
+  background: linear-gradient(135deg, #7175F3 0%, #9A6FF8 100%);
+  box-shadow: 0 6px 26px rgba(99, 102, 241, 0.55);
+  transform: translateY(-1px);
+}
+
+.gradient-primary-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

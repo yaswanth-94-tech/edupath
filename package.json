@@ -1,0 +1,17 @@
+{
+  "name": "edupath-workspace",
+  "version": "1.0.0",
+  "description": "EduPath - Adaptive, AI-driven skill gap and personalized learning path agent",
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
+    "build:server": "npm --prefix server run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "build": "npm run build:server && npm run build:frontend",
+    "test:api": "npm --prefix server run test:api"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
